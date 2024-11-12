@@ -1,0 +1,28 @@
+# Ignore node_modules (if you use npm for package management)
+node_modules/
+
+# Ignore build and distribution folders (if any)
+dist/
+build/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Chrome extension artifacts
+*.crx
+*.pem
+
+# Ignore user-specific or temporary files
+*.log
+*.tmp
+*.bak
+
+# Ignore JetBrains IDEs project files (e.g., WebStorm)
+.idea/
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore MacOS metadata
+.DS_Store
