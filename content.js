@@ -27,19 +27,23 @@ document.addEventListener('click', function(event) {
     const tags = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI'];
     const target = event.target;
     if (tags.includes(target.nodeName)) {
-        // Save original innerHTML
-        if (!originalInnerHTMLs.has(target)) {
-            originalInnerHTMLs.set(target, target.innerHTML);
-        }
-        // Clear any existing timeouts
-        if (elementTimeouts.has(target)) {
-            const timeouts = elementTimeouts.get(target);
-            timeouts.forEach(timeout => clearTimeout(timeout));
-            elementTimeouts.delete(target);
-            target.innerHTML = originalInnerHTMLs.get(target);
-        }
-        // Get wordsPerMinute and highlightColor through message passing
         chrome.runtime.sendMessage({type: 'getSettings'}, function(response) {
+            if (!response.enabled) {
+                return; // Don't process if extension is disabled
+            }
+            
+            // Save original innerHTML
+            if (!originalInnerHTMLs.has(target)) {
+                originalInnerHTMLs.set(target, target.innerHTML);
+            }
+            // Clear any existing timeouts
+            if (elementTimeouts.has(target)) {
+                const timeouts = elementTimeouts.get(target);
+                timeouts.forEach(timeout => clearTimeout(timeout));
+                elementTimeouts.delete(target);
+                target.innerHTML = originalInnerHTMLs.get(target);
+            }
+            // Get wordsPerMinute and highlightColor through message passing
             const wordsPerMinute = response.wordsPerMinute;
             const highlightColor = response.highlightColor;
             const highlightTimeFactor = 10000 / wordsPerMinute;
